@@ -1,2 +1,2 @@
 # Library
-An excercise from the Odin Project
+An exercise from the Odin Project
