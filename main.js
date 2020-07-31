@@ -33,6 +33,39 @@ function showBooks (arr){
   section = document.getElementById("books_container");
   section.innerHTML = ''; 
   arr.forEach((book,index) => {
+    let mainContainer = document.createElement("div");
+    mainContainer.classList = "card";
+    mainContainer.style = "margin-top: 1em";
+    mainContainer.setAttribute('data-attribute', index);
+    let cardContainer = document.createElement("div");;
+    let cardContent = document.createElement("div");
+    cardContent.classList = "card-content";
+    cardContainer.classList = "card";
+    cardContainer.appendChild(cardContent);
+    mainContainer.appendChild(cardContainer);
+    let bookTitle = document.createElement("p");
+    bookTitle.classList = "title is-4";
+    bookTitle.innerHTML = `${book.title}`;
+    cardContent.appendChild(bookTitle);
+    let additionalInfo = document.createElement("div");
+    additionalInfo.classList = "content";
+    cardContent.appendChild(additionalInfo);
+    additionalInfo.innerHTML = `<p>Author: ${book.author}</p><p>Pages: ${book.pages}</p>`;
+    let removeButton = document.createElement("button");
+    removeButton.innerHTML = "Remove book";
+    removeButton.classList = "button is-info";
+    removeButton.addEventListener("click", removeBook);
+    cardContent.appendChild(removeButton);
+    //div1.setAttribute('class', 'card');
+    section.appendChild(mainContainer);
+  });
+}
+
+/*function showBooks (arr){
+  
+  section = document.getElementById("books_container");
+  section.innerHTML = ''; 
+  arr.forEach((book,index) => {
     
     div1 = document.createElement("div");
     div1.setAttribute('data-attribute', index);
@@ -53,4 +86,4 @@ function showBooks (arr){
     div1.appendChild(p3);
     section.appendChild(div1);
   });
-}
+}*/
