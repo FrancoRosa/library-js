@@ -27,47 +27,30 @@ function removeBook(e) {
 
 function changeStatus(e) {
   index = e.path[3].getAttribute("data-attribute");
-  console.log("ZZZZ");
-  console.log(e);
-  console.log(index);
   bookList[index].toggleStatus();
   showBooks(bookList);
 }
 
-function addValidationMessage(element, message) {
-  let errorMessage = document.createElement('p');
-  errorMessage.innerHTML = message;
-  errorMessage.classList = "help is-danger";
-  element.appendChild(errorMessage);
-}
-
 function resetValidationMessages() {
   let errors = document.getElementsByClassName("help");
-  if(errors.length > 0) {
-    console.log(errors);
-    /*errors.forEach(element => {
-      element.parentNode.removeChild(element);
-    })*/
-    for(let element in errors) {
-      console.log(element);
-      element.parentNode.removeChild(element);
-    }
-  }
+  for(let element in errors){
+    errors[element].style = 'display: none;'
+  };
 }
 
 function validateInput(title, author, pages) {
   let valid = true;
   resetValidationMessages();
   if( title.length == 0 ) {
-    addValidationMessage(document.getElementById("title_field"), "Title can't be empty.");
+    document.getElementById("title_error_id").style = 'display: block;'
     valid = false;
   }
   if(author.length == 0) {
-    addValidationMessage(document.getElementById("author_field"), "Author can't be empty.");
+    document.getElementById("author_error_id").style = 'display: block;'
     valid = false;
   }
   if(!Number.isInteger(parseInt(pages))) {
-    addValidationMessage(document.getElementById("pages_field"), "Pages must be a number.");
+    document.getElementById("pages_error_id").style = 'display: block;'
     valid = false;
   }
 

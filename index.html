@@ -29,18 +29,21 @@
               <div class="control">
                 <input type="text" name="fname" id="book_title_id" class="input" placeholder="Book title"><br>
               </div>
+              <p id='title_error_id' class="help is-danger" style="display: none;">Title can't be blank</p>
             </div>
             <div class="field" id="author_field">
               <label for="fauthor" class="label" >Author:</label>
               <div class="control">
                 <input type="text" id="book_author_id" class="input" placeholder="Book author"><br>
               </div>
+              <p id='author_error_id' class="help is-danger" style="display: none;">Author can't be blank</p>
             </div>
             <div class="field" id="pages_field">
               <label for="fpages" class="label">Pages:</label>
               <div class="control">
                 <input type="text" id="book_pages_id" class="input" placeholder="Book pages"><br>
               </div>
+              <p id='pages_error_id' class="help is-danger" style="display: none;">Pages must be a number</p>
             </div>
             <div class="control">
               <input type="submit" class="button is-info" value="Save Book">
