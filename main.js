@@ -33,8 +33,10 @@ function showBooks (arr){
   section = document.getElementById("books_container");
   section.innerHTML = ''; 
   arr.forEach((book,index) => {
+    
     div1 = document.createElement("div");
     div1.setAttribute('data-attribute', index);
+    div1.setAttribute('class', 'card');
     let p1 = document.createElement("p");
     p1.innerHTML = `Title: ${book.title}`;
     let p2 = document.createElement("p");
