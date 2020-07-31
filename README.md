@@ -3,8 +3,10 @@
   >  This is part of The Odin Project’sJavaScript Curriculum. Find it at [The Odin Project](https://www.theodinproject.com/courses/javascript/lessons/library)
 
   ![App Preview](screenshot.png) 
+  ## Liveview
+  - [Netlify](https://library-js.netlify.app) 
+  
   ## Built With
-
   - JavaScript (ES6)
   - [Bulma](https://bulma.io/) 
 
