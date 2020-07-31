@@ -5,6 +5,11 @@ function Book(title, author, pages) {
   this.is_read = false;
 }
 
+Book.prototype.toggleStatus = function() {
+  this.is_read = !this.is_read;
+}
+
+
 const bookList = [];
 
 function addBook(title, author, pages, arr) {
@@ -17,6 +22,15 @@ function removeBook(e) {
   //arr.splice(index, 1);
   index = e.path[1].getAttribute("data-attribute");
   bookList.splice(index, 1);
+  showBooks(bookList);
+}
+
+function changeStatus(e) {
+  index = e.path[3].getAttribute("data-attribute");
+  console.log("ZZZZ");
+  console.log(e);
+  console.log(index);
+  bookList[index].toggleStatus();
   showBooks(bookList);
 }
 
@@ -50,7 +64,13 @@ function showBooks (arr){
     let additionalInfo = document.createElement("div");
     additionalInfo.classList = "content";
     cardContent.appendChild(additionalInfo);
-    additionalInfo.innerHTML = `<p>Author: ${book.author}</p><p>Pages: ${book.pages}</p>`;
+    additionalInfo.innerHTML = `<p>Author: ${book.author}</p><p>Pages: ${book.pages}</p><p>${book.is_read ? 'Read.' : 'Not read, yet.'}</p>`;
+    let toggleButton = document.createElement("button");
+    toggleButton.innerHTML = book.is_read ? 'Unread':'Read'; 
+    toggleButton.classList = "button";
+    toggleButton.addEventListener("click", changeStatus);
+    toggleButton.style = 'margin-right: 1em;'
+    cardContent.appendChild(toggleButton);
     let removeButton = document.createElement("button");
     removeButton.innerHTML = "Remove book";
     removeButton.classList = "button is-info";
