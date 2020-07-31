@@ -34,12 +34,58 @@ function changeStatus(e) {
   showBooks(bookList);
 }
 
+function addValidationMessage(element, message) {
+  let errorMessage = document.createElement('p');
+  errorMessage.innerHTML = message;
+  errorMessage.classList = "help is-danger";
+  element.appendChild(errorMessage);
+}
+
+function resetValidationMessages() {
+  let errors = document.getElementsByClassName("help");
+  if(errors.length > 0) {
+    console.log(errors);
+    /*errors.forEach(element => {
+      element.parentNode.removeChild(element);
+    })*/
+    for(let element in errors) {
+      console.log(element);
+      element.parentNode.removeChild(element);
+    }
+  }
+}
+
+function validateInput(title, author, pages) {
+  let valid = true;
+  resetValidationMessages();
+  if( title.length == 0 ) {
+    addValidationMessage(document.getElementById("title_field"), "Title can't be empty.");
+    valid = false;
+  }
+  if(author.length == 0) {
+    addValidationMessage(document.getElementById("author_field"), "Author can't be empty.");
+    valid = false;
+  }
+  if(!Number.isInteger(parseInt(pages))) {
+    addValidationMessage(document.getElementById("pages_field"), "Pages must be a number.");
+    valid = false;
+  }
+
+  return valid;
+}
+
 document.addEventListener("submit", function(event) {
   event.preventDefault();
   let title = document.getElementById("book_title_id").value;
   let author = document.getElementById("book_author_id").value;
   let pages = document.getElementById("book_pages_id").value;
-  addBook(title, author, pages, bookList);
+  if (validateInput(title, author, pages)) {
+    addBook(title, author, pages, bookList);
+    resetValidationMessages();
+    document.getElementById("book_title_id").value = "";
+    document.getElementById("book_author_id").value = "";
+    document.getElementById("book_pages_id").value = "";
+  }
 })
 
 function showBooks (arr){
