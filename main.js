@@ -9,19 +9,36 @@ Book.prototype.toggleStatus = function toggleStatus() {
   this.is_read = !this.is_read;
 };
 
-const bookList = [];
+function getBookList() {
+  const items = JSON.parse(localStorage.getItem('bookList'));
+  const parsedItems = [];
+  items.forEach(element => {
+    const book = new Book(element.title, element.author, element.pages);
+    book.is_read = element.is_read;
+    parsedItems.push(book);
+  });
+  return parsedItems;
+}
+
+function updateBookList(array) {
+  localStorage.setItem('bookList', JSON.stringify(array));
+}
 
 function changeStatus(e) {
   const index = e.path[3].getAttribute('data-attribute');
+  const bookList = getBookList();
   bookList[index].toggleStatus();
   e.path[0].innerHTML = bookList[index].is_read ? 'Unread' : 'Read';
   e.path[1].children[1].children[2].innerHTML = bookList[index].is_read ? 'Read.' : 'Not read, yet.';
+  updateBookList(bookList);
 }
 
 function removeBook(e) {
+  const bookList = getBookList();
   const index = e.path[1].getAttribute('data-attribute');
   e.path[1].remove();
   bookList.splice(index, 1);
+  updateBookList(bookList);
 }
 
 function showBooks(arr) {
@@ -61,9 +78,11 @@ function showBooks(arr) {
   });
 }
 
-function addBook(title, author, pages, arr) {
+function addBook(title, author, pages) {
+  const arr = getBookList();
   const book = new Book(title, author, pages);
   arr.push(book);
+  updateBookList(arr);
   showBooks(arr);
 }
 
@@ -99,10 +118,16 @@ document.addEventListener('submit', (event) => {
   const author = document.getElementById('book_author_id').value;
   const pages = document.getElementById('book_pages_id').value;
   if (validateInput(title, author, pages)) {
-    addBook(title, author, pages, bookList);
+    addBook(title, author, pages);
     resetValidationMessages();
     document.getElementById('book_title_id').value = '';
     document.getElementById('book_author_id').value = '';
     document.getElementById('book_pages_id').value = '';
   }
 });
+
+window.onload = () => {
+  if (!localStorage.getItem('bookList')) localStorage.setItem('bookList', JSON.stringify([]));
+  const books = getBookList();
+  showBooks(books);
+};
