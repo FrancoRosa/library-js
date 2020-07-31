@@ -19,15 +19,9 @@ function changeStatus(e) {
 }
 
 function removeBook(e) {
-  // arr.splice(index, 1);
   const index = e.path[1].getAttribute('data-attribute');
+  e.path[1].remove();
   bookList.splice(index, 1);
-  showBooks(bookList);
-}
-
-function assignListeners(toggleButton, removeButton) {
-  toggleButton.addEventListener('click', changeStatus);
-  removeButton.addEventListener('click', removeBook);
 }
 
 function showBooks(arr) {
@@ -55,16 +49,15 @@ function showBooks(arr) {
     const toggleButton = document.createElement('button');
     toggleButton.innerHTML = book.is_read ? 'Unread' : 'Read';
     toggleButton.classList = 'button';
-    // toggleButton.addEventListener('click', changeStatus);
+    toggleButton.addEventListener('click', changeStatus);
     toggleButton.style = 'margin-right: 1em;';
     cardContent.appendChild(toggleButton);
     const removeButton = document.createElement('button');
     removeButton.innerHTML = 'Remove book';
     removeButton.classList = 'button is-info';
-    // removeButton.addEventListener('click', removeBook);
+    removeButton.addEventListener('click', removeBook);
     cardContent.appendChild(removeButton);
     section.appendChild(mainContainer);
-    assignListeners(toggleButton, removeButton);
   });
 }
 
