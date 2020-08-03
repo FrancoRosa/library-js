@@ -1,7 +1,9 @@
 function Book(title, author, pages) {
+  const id = Math.floor(Date.now() + 1000 * Math.random());
   this.title = title;
   this.author = author;
   this.pages = pages;
+  this.id = id.toString();
   this.is_read = false;
 }
 
@@ -9,12 +11,23 @@ Book.prototype.toggleStatus = function toggleStatus() {
   this.is_read = !this.is_read;
 };
 
+function findBookbyId(id, bookList) {
+  let arrayIndex = null;
+  bookList.forEach( (book, index) => {
+    if (book.id === id) {
+      arrayIndex = index;
+    }
+  });
+  return arrayIndex;
+}
+
 function getBookList() {
   const items = JSON.parse(localStorage.getItem('bookList'));
   const parsedItems = [];
   items.forEach(element => {
     const book = new Book(element.title, element.author, element.pages);
     book.is_read = element.is_read;
+    book.id = element.id;
     parsedItems.push(book);
   });
   return parsedItems;
@@ -25,8 +38,11 @@ function updateBookList(array) {
 }
 
 function changeStatus(e) {
-  const index = e.path[3].getAttribute('data-attribute');
+  const id = e.path[3].getAttribute('data-attribute');
   const bookList = getBookList();
+  const index = findBookbyId(id, bookList);
+  console.log(">>>>>>>>>>>");
+  console.log(index);
   bookList[index].toggleStatus();
   e.path[0].innerHTML = bookList[index].is_read ? 'Unread' : 'Read';
   e.path[1].children[1].children[2].innerHTML = bookList[index].is_read ? 'Read.' : 'Not read, yet.';
@@ -35,7 +51,8 @@ function changeStatus(e) {
 
 function removeBook(e) {
   const bookList = getBookList();
-  const index = e.path[1].getAttribute('data-attribute');
+  const id = e.path[1].getAttribute('data-attribute');
+  const index = findBookbyId(id, bookList);
   e.path[1].remove();
   bookList.splice(index, 1);
   updateBookList(bookList);
@@ -44,11 +61,11 @@ function removeBook(e) {
 function showBooks(arr) {
   const section = document.getElementById('books_container');
   section.innerHTML = '';
-  arr.forEach((book, index) => {
+  arr.forEach((book) => {
     const mainContainer = document.createElement('div');
     mainContainer.classList = 'card';
     mainContainer.style = 'margin-top: 1em';
-    mainContainer.setAttribute('data-attribute', index);
+    mainContainer.setAttribute('data-attribute', book.id);
     const cardContainer = document.createElement('div');
     const cardContent = document.createElement('div');
     cardContent.classList = 'card-content';
