@@ -13,7 +13,7 @@ Book.prototype.toggleStatus = function toggleStatus() {
 
 function findBookbyId(id, bookList) {
   let arrayIndex = null;
-  bookList.forEach( (book, index) => {
+  bookList.forEach((book, index) => {
     if (book.id === id) {
       arrayIndex = index;
     }
@@ -41,8 +41,6 @@ function changeStatus(e) {
   const id = e.path[3].getAttribute('data-attribute');
   const bookList = getBookList();
   const index = findBookbyId(id, bookList);
-  console.log(">>>>>>>>>>>");
-  console.log(index);
   bookList[index].toggleStatus();
   e.path[0].innerHTML = bookList[index].is_read ? 'Unread' : 'Read';
   e.path[1].children[1].children[2].innerHTML = bookList[index].is_read ? 'Read.' : 'Not read, yet.';
@@ -51,7 +49,7 @@ function changeStatus(e) {
 
 function removeBook(e) {
   const bookList = getBookList();
-  const id = e.path[1].getAttribute('data-attribute');
+  const id = e.target.parentElement.parentElement.parentElement.attributes[1].value;
   const index = findBookbyId(id, bookList);
   e.path[1].remove();
   bookList.splice(index, 1);
